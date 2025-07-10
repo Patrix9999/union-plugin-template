@@ -22,6 +22,11 @@
 			"architecture": {
 				"value": "x86",
 				"strategy": "external"
+			},
+			"vendor": {
+				"jetbrains.com/clion": {
+					"toolchain": "Visual Studio x86"
+				}
 			}
 		},
 		{
