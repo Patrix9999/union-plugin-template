@@ -1,14 +1,7 @@
-# Visual Studio
-
-/.vs/
-
-# Visual Studio Cocd
-
-/.vscode/
-
-# CLion
-
-/.idea/
+# Project specific local files
+.vs/
+.vscode/
+.idea/
 
 # Build directories
 
