@@ -73,10 +73,13 @@ project_name = os.path.splitext(os.path.basename(project_path))[0]
 output_file = f"{project_name}.txt"
 
 with open(output_file, "w") as f:
-    for func_ea in idautils.Functions():
+    for func_ea, name in idautils.Names():
+        if not idc.is_code(idc.get_full_flags(func_ea)):
+            continue
+
         raw_name = idc.get_func_name(func_ea)
         if not raw_name:
-            continue
+            raw_name = name
 
         demangled_name = demangle(raw_name)
         #print(f"{hex(func_ea)} {demangled_name}")
