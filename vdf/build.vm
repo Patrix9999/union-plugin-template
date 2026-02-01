@@ -1,0 +1,10 @@
+[BEGINVDF]
+Comment=Union plugin for Gothic Games. 
+BaseDir=.
+VDFName=plugin.vdf
+[FILES]
+[EXCLUDE]
+[INCLUDE]
+_Work\* -r
+System\* -r
+[ENDVDF]
