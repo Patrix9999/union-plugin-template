@@ -1,0 +1,60 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build
+  - release
+
+build:plugin:
+  stage: build
+  tags: [saas-windows-medium-amd64]
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  before_script: |
+    function loadenv($bat_file)
+    {
+      $env_file = New-TemporaryFile
+      cmd /c " `"$bat_file`" $args && set > `"$env_file`" "
+
+      foreach($line in Get-Content "$env_file") 
+      {
+        if($line -match "^(.*?)=(.*)$")
+        {
+          Set-Content "env:\$($matches[1])" $matches[2]
+        }
+      }
+
+      Remove-Item "$env_file"
+    }
+
+    loadenv "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x86
+  script:
+    - cmake . --preset MP-Release
+    - cmake --build --preset MP-Release
+    - mv out/build/MP-Release/UnionPlugin.dll ./UnionPlugin.dll
+    - Add-Content -Path job.env -Value "plugin_job_id=${CI_JOB_ID}"
+  artifacts:
+    name: ${CI_PROJECT_TITLE}
+    paths:
+      - "*.dll"
+    expire_in: never
+    reports:
+      dotenv: job.env
+
+release:plugin:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: '$CI_COMMIT_TAG'
+  needs: [build:plugin]
+  script:
+    - echo "Creating ${CI_COMMIT_TAG} release"
+  release:
+    name: "${CI_COMMIT_TAG}"
+    tag_name: "$CI_COMMIT_TAG"
+    description: "./CHANGELOG.md"
+    assets:
+      links:
+        - name: "Plugin DLL"
+          url: "${CI_PROJECT_URL}/-/jobs/${plugin_job_id}/artifacts/raw/UnionPlugin.dll"
+          link_type: "package"
