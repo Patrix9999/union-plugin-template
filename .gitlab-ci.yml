@@ -31,11 +31,20 @@ build:plugin:
   script:
     - cmake . --preset MP-Release
     - cmake --build --preset MP-Release
-    - mv out/build/MP-Release/UnionPlugin.dll ./UnionPlugin.dll
-    - Add-Content -Path job.env -Value "plugin_job_id=${CI_JOB_ID}"
+    - |
+      $plugin_path = Get-ChildItem -Recurse -Include *.vdf, *.dll -File |
+        Sort-Object { $_.Extension -eq ".vdf" } -Descending |
+        Select-Object -First 1 -ExpandProperty FullName
+
+      echo "Found plugin path: $plugin_path"
+      Copy-Item $plugin_path .
+
+      Add-Content job.env "plugin_filename=$(Split-Path $plugin_path -Leaf)"
+      Add-Content job.env "plugin_job_id=${CI_JOB_ID}"
   artifacts:
     name: ${CI_PROJECT_TITLE}
     paths:
+      - "*.vdf"
       - "*.dll"
     expire_in: never
     reports:
@@ -55,6 +64,6 @@ release:plugin:
     description: "./CHANGELOG.md"
     assets:
       links:
-        - name: "Plugin DLL"
-          url: "${CI_PROJECT_URL}/-/jobs/${plugin_job_id}/artifacts/raw/UnionPlugin.dll"
+        - name: "${plugin_filename}"
+          url: "${CI_PROJECT_URL}/-/jobs/${plugin_job_id}/artifacts/raw/${plugin_filename}"
           link_type: "package"
