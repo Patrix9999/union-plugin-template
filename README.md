@@ -73,11 +73,11 @@ On Windows you can use [Link Shell Extension](https://schinagl.priv.at/nt/hardli
 
 # Publishing plugin
 
-This project provides [github action](https://github.com/features/actions) for compiling and releasing a new version of your plugin via github.  
+This project provides [github action](https://github.com/features/actions) and [gitlab pipeline](https://docs.gitlab.com/ci/yaml/) for compiling and releasing a new version of your plugin.  
 
 Before you publish a new release, make sure to set a new version in **CMakeLists.txt**, and document your changes in **CHANGELOG.md** file. I recommend updating your changelog file regularly during the development of your plugin, to not forget about adding this later.
 
-To publish a new version of your plugin you just need to create a new [github release](https://github.com/Patrix9999/union-plugin-template/releases).  
+To publish a new version of your plugin you just need to create a new [github release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) or [gitlab release](https://docs.gitlab.com/user/project/releases/) or push a [git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging).  
 I recommend naming your release by using your plugin version.
 
 And that's it, when plugin will be built successfully it will automatically be added as release asset to the newest release. By default CI/CD script is using the **MP-Release** configuration, depending on your plugin requirements you might want to change this, to match your plugin supported platform(s).
