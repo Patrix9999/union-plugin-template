@@ -29,7 +29,7 @@ build:plugin:
 
     loadenv "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x86
   script:
-    - cmake . --preset MP-Release
+    - cmake . --preset MP-Release -DPROJECT_VERSION="$CI_COMMIT_TAG"
     - cmake --build --preset MP-Release
     - |
       $plugin_path = Get-ChildItem -Recurse -Include *.vdf, *.dll -File |

@@ -3,11 +3,13 @@ cmake_minimum_required(VERSION 3.21)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 
+set(PROJECT_VERSION "1.0.0.0" CACHE STRING "Project version")
+
 include(target_add_versioninfo)
 
 project(UnionPlugin
 	DESCRIPTION "Union plugin for Gothic Games"
-	VERSION 1.0.0.0
+	VERSION ${PROJECT_VERSION}
 )
 
 set(CMAKE_CXX_STANDARD 20)
