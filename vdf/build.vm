@@ -1,7 +1,7 @@
 [BEGINVDF]
-Comment=Union plugin for Gothic Games. 
+Comment=${CMAKE_PROJECT_NAME} v${PROJECT_VERSION}%%N${PROJECT_DESCRIPTION}
 BaseDir=.
-VDFName=plugin.vdf
+VDFName=${CMAKE_PROJECT_NAME}.vdf
 [FILES]
 [EXCLUDE]
 [INCLUDE]
