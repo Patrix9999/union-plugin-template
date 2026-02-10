@@ -44,36 +44,41 @@ target_add_versioninfo(${CMAKE_PROJECT_NAME}
 	PRODUCT_NAME "${CMAKE_PROJECT_NAME}"
 )
 
+set(VDF_DIR "${PROJECT_SOURCE_DIR}/vdf/")
+set(VDF_BUILD_DIR "${CMAKE_BINARY_DIR}/vdf/")
+set(VDF_BUILD_AUTORUN_DIR "${VDF_BUILD_DIR}System/Autorun/")
+
+file(COPY "${VDF_DIR}" DESTINATION "${VDF_BUILD_DIR}" FOLLOW_SYMLINK_CHAIN)
+
+set(VDF_BUILD_VM_FILE "${VDF_BUILD_DIR}build.vm")
+configure_file("${VDF_DIR}build.vm" "${VDF_BUILD_VM_FILE}")
+
+string(REPLACE "/" "\\" VDF_BUILD_VM_FILE "${VDF_BUILD_VM_FILE}")
+
 if (GENERATE_UNION_API_DLL)
-	set(VDF_DIR "${PROJECT_SOURCE_DIR}/vdf/")
-	set(VDF_AUTORUN_DIR "${VDF_DIR}System/Autorun/")
-
-	set(VDF_BUILD_VM_FILE "${VDF_DIR}build.vm")
-	string(REPLACE "/" "\\" VDF_BUILD_VM_FILE "${VDF_BUILD_VM_FILE}")
-
 	add_custom_target(copy_union_api_dll
 		ALL
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${VDF_AUTORUN_DIR}
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:union_api_dll> ${VDF_AUTORUN_DIR}
-			COMMAND ${CMAKE_COMMAND} -E echo "[Post Build] $<TARGET_FILE_NAME:union_api_dll> copied to: ${VDF_AUTORUN_DIR}"
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${VDF_BUILD_AUTORUN_DIR}
+			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:union_api_dll> ${VDF_BUILD_AUTORUN_DIR}
+			COMMAND ${CMAKE_COMMAND} -E echo "[Post Build] $<TARGET_FILE_NAME:union_api_dll> copied to: ${VDF_BUILD_AUTORUN_DIR}"
 		DEPENDS union_api_dll
 	)
-
-	add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
-		POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${VDF_AUTORUN_DIR}
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${VDF_AUTORUN_DIR}
-			COMMAND ${CMAKE_COMMAND} -E echo "[Post Build] $<TARGET_FILE_NAME:${CMAKE_PROJECT_NAME}> copied to: ${VDF_AUTORUN_DIR}")
-
-	add_custom_target(build_vdf
-		ALL
-			COMMAND ${CMAKE_COMMAND} -E echo "[VDF] Building ${CMAKE_PROJECT_NAME}.vdf ..."
-			COMMAND "${VDF_DIR}/GothicVDFS.exe" /B "${VDF_BUILD_VM_FILE}"
-			COMMAND ${CMAKE_COMMAND} -E rename "${VDF_DIR}/plugin.vdf" "${VDF_DIR}/${CMAKE_PROJECT_NAME}.vdf"
-			COMMAND ${CMAKE_COMMAND} -E echo "[VDF] ${CMAKE_PROJECT_NAME}.vdf build successfully!"
-		WORKING_DIRECTORY "${VDF_DIR}"
-		DEPENDS ${CMAKE_PROJECT_NAME}
-	)
 endif()
+
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME}
+	POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${VDF_BUILD_AUTORUN_DIR}
+		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${CMAKE_PROJECT_NAME}> ${VDF_BUILD_AUTORUN_DIR}
+		COMMAND ${CMAKE_COMMAND} -E echo "[Post Build] $<TARGET_FILE_NAME:${CMAKE_PROJECT_NAME}> copied to: ${VDF_BUILD_AUTORUN_DIR}")
+
+add_custom_target(build_vdf
+	ALL
+		COMMAND ${CMAKE_COMMAND} -E echo "[VDF] Building ${CMAKE_PROJECT_NAME}.vdf ..."
+		COMMAND "${VDF_BUILD_DIR}/GothicVDFS.exe" /B "${VDF_BUILD_VM_FILE}"
+		COMMAND ${CMAKE_COMMAND} -E echo "[VDF] ${CMAKE_PROJECT_NAME}.vdf build successfully!"
+	WORKING_DIRECTORY "${VDF_BUILD_DIR}"
+	DEPENDS ${CMAKE_PROJECT_NAME}
+)
+
 
 add_subdirectory(dependencies)
