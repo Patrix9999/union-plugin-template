@@ -70,39 +70,73 @@ def parse_signature(signature: str) -> dict:
 project_path = idaapi.get_input_file_path()
 project_name = os.path.splitext(os.path.basename(project_path))[0]
 
-output_file = f"{project_name}.txt"
+output_file = f"{project_name}_signatures.hpp"
+
+gothic_namespaces = {
+    "g1": "Gothic_I_Classic",
+    "g1a": "Gothic_I_Addon",
+    "g2": "Gothic_II_Classic",
+    "g2a": "Gothic_II_Addon",
+}
+
+signatures = {}
+
+for func_ea, name in idautils.Names():
+    if not idc.is_code(idc.get_full_flags(func_ea)):
+        continue
+
+    raw_name = idc.get_func_name(func_ea)
+    if not raw_name:
+        raw_name = name
+
+    demangled_name = demangle(raw_name)
+
+    try:
+        signature = parse_signature(demangled_name)
+        if signature is None:
+            #print(f"skipped: {demangled_name}")
+            continue
+
+        signature_key = f"{signature['class_name']}::{signature['method_name']}" if signature['class_name'] else signature['method_name']
+        if signature_key in signatures:
+            #print(f"skipped duplicate: {signature_key} 0x{func_ea:x}")
+            continue
+
+        signatures[signature_key] = func_ea
+
+    except Exception as e:
+        print(f"Exception occurred: {e}")
+        continue
 
 with open(output_file, "w") as f:
-    for func_ea, name in idautils.Names():
-        if not idc.is_code(idc.get_full_flags(func_ea)):
-            continue
+    f.write("#pragma once\n\n")
+    f.write("#include <cstdint>\n")
+    f.write("#include <string_view>\n\n")
 
-        raw_name = idc.get_func_name(func_ea)
-        if not raw_name:
-            raw_name = name
+    f.write(f"namespace {gothic_namespaces[project_name]}\n")
+    f.write(f"{{\n")
+    f.write(f"\tstruct SignatureEntry\n")
+    f.write(f"\t{{\n")
+    f.write(f"\t\tstd::string_view signature;\n")
+    f.write(f"\t\tstd::uint32_t address;\n")
+    f.write(f"\t}};\n\n")
 
-        demangled_name = demangle(raw_name)
-        #print(f"{hex(func_ea)} {demangled_name}")
+    f.write(f"\tconstexpr SignatureEntry signatures[] = {{\n")
 
-        try:
-            signature = parse_signature(demangled_name)
-            if signature is None:
-                print(f"skipped: {demangled_name}")
-                continue
+    for key, value in signatures.items():
+        f.write(f'\t\t{{ "{key}", 0x{value:X} }},\n')
 
-            line = (
-                f"{hex(func_ea)}"
-                f"\t{signature['return_type']}"
-                f"\t{signature['calling_convention']}"
-                f"\t{signature['class_name']}"
-                f"\t{signature['method_name']}"
-                f"\t{"\t".join(signature['arguments'])}"
-            )
+    f.write("\t};\n\n")
 
-            f.write(line + '\n')
-
-        except Exception as e:
-            print(f"Exception occurred: {e}")
-            continue
+    f.write(f"\tconsteval std::uint32_t SignatureToAddress(const std::string_view signature)\n")
+    f.write(f"\t{{\n")
+    f.write(f"\t\tfor (auto const& [entry_signature, entry_address] : signatures)\n")
+    f.write(f"\t\t{{\n")
+    f.write(f"\t\t\tif (entry_signature == signature)\n")
+    f.write(f"\t\t\t\treturn entry_address;\n")
+    f.write(f"\t\t}}\n\n")
+    f.write(f"\t\treturn 0;\n\n")
+    f.write(f"\t}}\n")
+    f.write(f"}}")
 
 print(f"Exported function list to {output_file}")
