@@ -62,22 +62,26 @@ Follow the steps below to compile the plugin:
 
 # Plugin installation
 
-Once the plugin has been compiled successfully, you can tell the game to load it during startup by placing it in `System/autorun` subdirectory.
+Once the plugin has been compiled successfully, you can tell the game to load it during startup by placing it in `Game/System/autorun` subdirectory.  
+You also need to copy `UnionAPI.dll` into `Game/System`.
+
+Alternatively you can just copy `UnionPlugin.vdf` into `Game/Data` directory.  
+This will work, because `UnionPlugin.vdf` already constains `UnionAPI.dll` inside of it.
 
 To do that copy the plugin:  
 **from**: `REPO_ROOT/out/build/YOUR_CONFIGURATION/YOUR_PROJECT_NAME.dll`  
 **to**: `GAME_ROOT/System/autorun/`
 
-You can also create a symbolic link for your dll in `System/autorun` subdirectory, that way you won't be forced to copy the plugin dll each time while you compile a new version of your plugin.  
+You can also create a symbolic link for your dll in `Game/System/autorun` subdirectory, that way you won't be forced to copy the plugin dll each time while you compile a new version of your plugin.  
 On Windows you can use [Link Shell Extension](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) that allows you to create symlinks from file context menu.
 
 # Publishing plugin
 
-This project provides [github action](https://github.com/features/actions) and [gitlab pipeline](https://docs.gitlab.com/ci/yaml/) for compiling and releasing a new version of your plugin.  
+This project provides [github action](https://github.com/features/actions) for compiling and releasing a new version of your plugin via github.  
 
 Before you publish a new release, make sure to set a new version in **CMakeLists.txt**, and document your changes in **CHANGELOG.md** file. I recommend updating your changelog file regularly during the development of your plugin, to not forget about adding this later.
 
-To publish a new version of your plugin you just need to create a new [github release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) or [gitlab release](https://docs.gitlab.com/user/project/releases/) or push a [git tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging).  
+To publish a new version of your plugin you just need to create a new [github release](https://github.com/Patrix9999/union-plugin-template/releases).  
 I recommend naming your release by using your plugin version.
 
 And that's it, when plugin will be built successfully it will automatically be added as release asset to the newest release. By default CI/CD script is using the **MP-Release** configuration, depending on your plugin requirements you might want to change this, to match your plugin supported platform(s).
