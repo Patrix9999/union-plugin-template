@@ -63,17 +63,18 @@ Follow the steps below to compile the plugin:
 # Plugin installation
 
 Once the plugin has been compiled successfully, you can tell the game to load it during startup by placing it in `Game/System/autorun` subdirectory.  
-You also need to copy `UnionAPI.dll` into `Game/System`.
-
-Alternatively you can just copy `UnionPlugin.vdf` into `Game/Data` directory.  
-This will work, because `UnionPlugin.vdf` already constains `UnionAPI.dll` inside of it.
 
 To do that copy the plugin:  
 **from**: `REPO_ROOT/out/build/YOUR_CONFIGURATION/YOUR_PROJECT_NAME.dll`  
 **to**: `GAME_ROOT/System/autorun/`
 
+You also need to copy `UnionAPI.dll` into `Game/System`.
+
 You can also create a symbolic link for your dll in `Game/System/autorun` subdirectory, that way you won't be forced to copy the plugin dll each time while you compile a new version of your plugin.  
 On Windows you can use [Link Shell Extension](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) that allows you to create symlinks from file context menu.
+
+Alternatively you can just copy `UnionPlugin.vdf` into `Game/Data` directory.  
+This will work, because `UnionPlugin.vdf` already constains `UnionAPI.dll` inside of it.
 
 # Publishing plugin
 
