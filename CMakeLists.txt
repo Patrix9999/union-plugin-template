@@ -29,8 +29,6 @@ endif()
 
 file(GLOB_RECURSE SRC
     "src/*.cpp"
-	"resources/*.h"
-	"resources/*.rc"
 )
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
@@ -43,7 +41,7 @@ target_include_directories(${CMAKE_PROJECT_NAME}
 	PRIVATE
 		BEFORE "userapi/"
 		"src/"
-		"resources/"
+		"signatures/"
 )
 
 target_add_versioninfo(${CMAKE_PROJECT_NAME}
