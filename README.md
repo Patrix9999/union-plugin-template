@@ -28,7 +28,16 @@ git clone --recursive URL_TO_YOUR_REPO
 
 # Configuration
 
-All of the plugin configuration is located in **REPO_ROOT/CMakeLists.txt**.  
+The plugin template contains special file called `CMakeUserConfigPresets.json`  
+in which you can manully specify the variables for your own needs.  
+
+**NOTE!** By default this file is tracked via git, but it shouldn't be, to not track it,  
+type this command in root repo dir:  
+```bash
+git update-index --assume-unchanged CMakeUserConfigPresets.json
+```
+
+Core plugin configuration is located in **REPO_ROOT/CMakeLists.txt**.  
 Some of the common things that you should propably change are:
 - **project name** (this is also setting the name of your plugin dll)  
 	default value is **UnionPlugin**
