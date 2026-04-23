@@ -1,5 +1,8 @@
 {
-	"version": 3,
+	"version": 5,
+	"include": [
+		"CMakeUserConfigPresets.json"
+	],
 	"configurePresets": [
 		{
 			"name": "windows",
@@ -62,18 +65,23 @@
 		{
 			"name": "mp",
 			"hidden": true,
-			"cacheVariables": { "GOTHIC_API_G1": true, "GOTHIC_API_G1A": true, "GOTHIC_API_G2": true, "GOTHIC_API_G2A": true }
+			"cacheVariables": {
+				"GOTHIC_API_G1": true,
+				"GOTHIC_API_G1A": true,
+				"GOTHIC_API_G2": true,
+				"GOTHIC_API_G2A": true
+			}
 		},
-		{ "name": "G1-Debug", "inherits": [ "windows", "x86", "debug", "g1" ] },
-		{ "name": "G1-Release", "inherits": [ "windows", "x86", "release", "g1" ] },
-		{ "name": "G1A-Debug", "inherits": [ "windows", "x86", "debug", "g1a" ] },
-		{ "name": "G1A-Release", "inherits": [ "windows", "x86", "release", "g1a" ] },
-		{ "name": "G2-Debug", "inherits": [ "windows", "x86", "debug", "g2" ] },
-		{ "name": "G2-Release", "inherits": [ "windows", "x86", "release", "g2" ] },
-		{ "name": "G2A-Debug", "inherits": [ "windows", "x86", "debug", "g2a" ] },
-		{ "name": "G2A-Release", "inherits": [ "windows", "x86", "release", "g2a" ] },
-		{ "name": "MP-Debug", "inherits": [ "windows", "x86", "debug", "mp" ] },
-		{ "name": "MP-Release", "inherits": [ "windows", "x86", "release", "mp" ] }
+		{ "name": "G1-Debug", "inherits": [ "windows", "x86", "debug", "g1", "config" ]},
+		{ "name": "G1-Release", "inherits": [ "windows", "x86", "release", "g1", "config" ] },
+		{ "name": "G1A-Debug", "inherits": [ "windows", "x86", "debug", "g1a", "config" ] },
+		{ "name": "G1A-Release", "inherits": [ "windows", "x86", "release", "g1a", "config" ] },
+		{ "name": "G2-Debug", "inherits": [ "windows", "x86", "debug", "g2", "config" ] },
+		{ "name": "G2-Release", "inherits": [ "windows", "x86", "release", "g2", "config" ] },
+		{ "name": "G2A-Debug", "inherits": [ "windows", "x86", "debug", "g2a", "config" ] },
+		{ "name": "G2A-Release", "inherits": [ "windows", "x86", "release", "g2a", "config" ] },
+		{ "name": "MP-Debug", "inherits": [ "windows", "x86", "debug", "mp", "config" ] },
+		{ "name": "MP-Release", "inherits": [ "windows", "x86", "release", "mp", "config" ] }
 	],
 	"buildPresets": [
 		{ "name": "G1-Debug", "configurePreset": "G1-Debug" },

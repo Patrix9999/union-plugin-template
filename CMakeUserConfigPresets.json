@@ -1,0 +1,12 @@
+{
+  "version": 5,
+  "configurePresets": [
+    {
+      "name": "config",
+      "hidden":  true,
+      "cacheVariables": {
+        "GAME_PATH": "C:\\Program Files (x86)\\JoWood\\Gothic II\\System\\Gothic2.exe"
+      }
+    }
+  ]
+}

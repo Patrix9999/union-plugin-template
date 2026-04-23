@@ -1,5 +1,7 @@
 # Project specific local files
-.vs/
+.vs/*
+!.vs/launch.vs.json
+
 .vscode/
 .idea/
 
@@ -11,3 +13,7 @@
 
 *.dll
 *.vdf
+
+# CMake user config
+
+CMakeUserConfigPresets.json
