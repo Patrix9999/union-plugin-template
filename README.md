@@ -161,6 +161,7 @@ This project provides [github action](https://github.com/features/actions) for c
 Before you publish a new release, make sure to set a new version in **CMakeLists.txt**, and document your changes in **CHANGELOG.md** file. I recommend updating your changelog file regularly during the development of your plugin, to not forget about adding this later.
 
 To publish a new version of your plugin you just need to create a new [github release](https://github.com/Patrix9999/union-plugin-template/releases).  
-I recommend naming your release by using your plugin version.
+**YOU MUST NAME YOUR RELEASE** using following versioning schema: `major.minor.[patch].[tweak]`, e.g: `1.0`.  
+Alternatively you can also trigger the pipeline manually, this can be useful for beta versions of your plugins.
 
 And that's it, when plugin will be built successfully it will automatically be added as release asset to the newest release. By default CI/CD script is using the **MP-Release** configuration, depending on your plugin requirements you might want to change this, to match your plugin supported platform(s).
