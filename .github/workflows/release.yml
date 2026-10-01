@@ -46,7 +46,7 @@ jobs:
           echo "plugin_path=$plugin_path" >> $env:GITHUB_ENV
 
       - name: Upload plugin
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
           files: ${{ env.plugin_path }}
