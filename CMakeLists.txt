@@ -51,18 +51,22 @@ generate_ipp_translation_units(
 )
 
 add_library(${CMAKE_PROJECT_NAME} SHARED)
+
 target_sources(${CMAKE_PROJECT_NAME}
-		PRIVATE
-			${SRC}
-			${IPP_TRANSLATION_UNITS}
+	PRIVATE
+		${SRC}
+		${IPP_TRANSLATION_UNITS}
+)
+
+target_precompile_headers(${CMAKE_PROJECT_NAME}
+	PRIVATE
+		<Union/Hook.h>
+		<ZenGin/zGothicAPI.h>
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME}
-    INTERFACE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
-
-target_include_directories(${CMAKE_PROJECT_NAME}
+	INTERFACE
+		"${CMAKE_CURRENT_SOURCE_DIR}/include"
 	PRIVATE
 		"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
