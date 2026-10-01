@@ -37,11 +37,11 @@ if (GENERATE_UNION_API_DLL AND NOT GENERATE_VDF)
 	message(WARNING "GENERATE_UNION_API_DLL is ON but GENERATE_VDF is OFF. UnionAPI.dll won't be included in the release.")
 endif()
 
-file(GLOB_RECURSE IPP_FILES
+file(GLOB_RECURSE IPP_FILES CONFIGURE_DEPENDS
 	"src/*.ipp"
 )
 
-file(GLOB_RECURSE SRC
+file(GLOB_RECURSE SRC CONFIGURE_DEPENDS
 	"src/*.cpp"
 )
 
