@@ -13,7 +13,7 @@ on:
         type: string
 
       create_release:
-        description: "Create GitHub release"
+        description: "Create release"
         required: true
         default: false
         type: boolean
