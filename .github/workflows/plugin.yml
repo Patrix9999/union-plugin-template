@@ -80,5 +80,6 @@ jobs:
         if: ${{ github.event_name == 'push' || inputs.create_release }}
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ env.PROJECT_VERSION }}
           body_path: CHANGELOG.md
           files: ${{ env.plugin_path }}
