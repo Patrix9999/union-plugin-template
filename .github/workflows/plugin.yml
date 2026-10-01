@@ -1,4 +1,4 @@
-name: "Plugin CI/CD"
+name: "Build Plugin"
 
 on:
   push:
@@ -15,7 +15,7 @@ on:
       create_release:
         description: "Create GitHub release"
         required: true
-        default: true
+        default: false
         type: boolean
 
 permissions:
@@ -69,7 +69,14 @@ jobs:
 
           echo "plugin_path=$plugin_path" >> $env:GITHUB_ENV
 
-      - name: Upload plugin
+      - name: Upload plugin as artifact
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.create_release }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-${{ env.PROJECT_VERSION }}
+          path: ${{ env.plugin_path }}
+
+      - name: Release Plugin
         if: ${{ github.event_name == 'push' || inputs.create_release }}
         uses: softprops/action-gh-release@v3
         with:
