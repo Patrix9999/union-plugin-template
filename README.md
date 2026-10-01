@@ -12,7 +12,6 @@ It provides a preconfigured base code designed to simplify the development proce
 
 Before you start making your own plugin, you need to install some software first, here's a full list of things that you'll need to install to be able to build the union plugin:
 - [git](https://git-scm.com/) **Required** for version control and to clone the project repository
-- [git lfs](https://git-lfs.com/) **Required** to clone the project repository binary files (e.g: `GothicVDFS.exe`)
 - [CMake](https://cmake.org/) **Required** for command-line and Linux builds; optional when using Visual Studio's bundled CMake
 - [Visual Studio](https://visualstudio.microsoft.com/pl/) **Required on Windows** for compiling the plugin using the MSVC toolset
 	(make sure to install **C++ Workload** and **CMake Tools for Visual Studio**)
