@@ -71,7 +71,7 @@ jobs:
 
       - name: Upload plugin as artifact
         if: ${{ github.event_name == 'workflow_dispatch' && !inputs.create_release }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: plugin-${{ env.PROJECT_VERSION }}
           path: ${{ env.plugin_path }}
