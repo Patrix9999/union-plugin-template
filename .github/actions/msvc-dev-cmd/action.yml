@@ -1,0 +1,30 @@
+name: 'MSVC Developer Command Prompt'
+description: 'Set up MSVC developer command prompt environment'
+inputs:
+  arch:
+    description: 'Target architecture'
+    required: false
+    default: 'x64'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up environment
+      shell: pwsh
+      run: |
+        $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+
+        $installPath = & $vswhere `
+            -latest `
+            -products * `
+            -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+            -property installationPath
+
+        $vcvarsall = Join-Path $installPath "VC\Auxiliary\Build\vcvarsall.bat"
+
+        cmd /c "`"$vcvarsall`" ${{ inputs.arch }} && set" |
+        ForEach-Object {
+            if ($_ -match '^([^=]+)=(.*)$') {
+                "$($_)" >> $env:GITHUB_ENV
+            }
+        }

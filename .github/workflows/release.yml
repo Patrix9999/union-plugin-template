@@ -14,13 +14,13 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
           lfs: true
 
       - name: Set up MSVC
-        uses: ilammy/msvc-dev-cmd@v1.13.0
+        uses: ./.github/actions/msvc-dev-cmd
         with:
           arch: x86
  
