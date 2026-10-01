@@ -5,9 +5,22 @@ on:
     tags:
       - '*'
 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Plugin version"
+        required: true
+        type: string
+
+      create_release:
+        description: "Create GitHub release"
+        required: true
+        default: true
+        type: boolean
+
 permissions:
   contents: write
-    
+
 jobs:
   plugin:
     runs-on: windows-latest
@@ -23,10 +36,21 @@ jobs:
         uses: ./.github/actions/msvc-dev-cmd
         with:
           arch: x86
- 
+
+      - name: Determine version
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $version = "${{ inputs.version }}"
+          } else {
+            $version = "${{ github.ref_name }}"
+          }
+
+          echo "PROJECT_VERSION=$version" >> $env:GITHUB_ENV
+          echo "Version: $version"
+
       - name: Compile plugin
         run: |
-          cmake . --preset MP-Release -DPROJECT_VERSION="${{ github.ref_name }}"
+          cmake . --preset MP-Release -DPROJECT_VERSION="${{ env.PROJECT_VERSION }}"
           cmake --build --preset MP-Release
 
       - name: Find plugin
@@ -46,6 +70,7 @@ jobs:
           echo "plugin_path=$plugin_path" >> $env:GITHUB_ENV
 
       - name: Upload plugin
+        if: ${{ github.event_name == 'push' || inputs.create_release }}
         uses: softprops/action-gh-release@v3
         with:
           body_path: CHANGELOG.md
