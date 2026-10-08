@@ -62,6 +62,7 @@ target_precompile_headers(${CMAKE_PROJECT_NAME}
 	PRIVATE
 		<Union/Hook.h>
 		<ZenGin/zGothicAPI.h>
+		<gothic_intrusive_ptr.hpp>
 )
 
 target_include_directories(${CMAKE_PROJECT_NAME}
