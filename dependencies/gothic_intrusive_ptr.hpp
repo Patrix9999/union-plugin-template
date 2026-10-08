@@ -1,3 +1,5 @@
+#pragma once
+
 #include <ZenGin/zGothicAPI.h>
 #include <crimson_cell/intrusive_ptr.hpp>
 
