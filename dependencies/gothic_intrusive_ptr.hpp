@@ -4,11 +4,11 @@
 #if __G1
 namespace Gothic_I_Classic
 {
-    inline void intrusive_ptr_add_ref(zCObject* object) noexcept {
+    inline void intrusive_ptr_add_ref(zCObject* object) {
         object->AddRef();
     }
 
-    inline void intrusive_ptr_release(zCObject* object) noexcept {
+    inline void intrusive_ptr_release(zCObject* object) {
         object->Release();
     }
 }
@@ -17,11 +17,11 @@ namespace Gothic_I_Classic
 #if __G1A
 namespace Gothic_I_Addon
 {
-    inline void intrusive_ptr_add_ref(zCObject* object) noexcept {
+    inline void intrusive_ptr_add_ref(zCObject* object) {
         object->AddRef();
     }
 
-    inline void intrusive_ptr_release(zCObject* object) noexcept {
+    inline void intrusive_ptr_release(zCObject* object) {
         object->Release();
     }
 }
@@ -30,11 +30,11 @@ namespace Gothic_I_Addon
 #if __G2
 namespace Gothic_II_Classic
 {
-    inline void intrusive_ptr_add_ref(zCObject* object) noexcept {
+    inline void intrusive_ptr_add_ref(zCObject* object) {
         object->AddRef();
     }
 
-    inline void intrusive_ptr_release(zCObject* object) noexcept {
+    inline void intrusive_ptr_release(zCObject* object) {
         object->Release();
     }
 }
@@ -43,11 +43,11 @@ namespace Gothic_II_Classic
 #if __G2A
 namespace Gothic_II_Addon
 {
-    inline void intrusive_ptr_add_ref(zCObject* object) noexcept {
+    inline void intrusive_ptr_add_ref(zCObject* object) {
         object->AddRef();
     }
 
-    inline void intrusive_ptr_release(zCObject* object) noexcept {
+    inline void intrusive_ptr_release(zCObject* object) {
         object->Release();
     }
 }
