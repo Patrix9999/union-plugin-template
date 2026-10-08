@@ -4,3 +4,6 @@
 [submodule "dependencies/union/gothic-api"]
 	path = dependencies/union/gothic-api
 	url = https://gitlab.com/union-framework/gothic-api.git
+[submodule "dependencies/intrusive_ptr"]
+	path = dependencies/intrusive_ptr
+	url = https://github.com/Patrix9999/intrusive_ptr.git
