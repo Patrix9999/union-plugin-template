@@ -1,5 +1,5 @@
 add_subdirectory(union)
-add_subdirectory(intrusive_ptr)
+include(intrusive_ptr.cmake)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
 	PRIVATE
